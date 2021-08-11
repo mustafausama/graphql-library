@@ -16,7 +16,7 @@ mongoose.connection.once("open", () => {
   console.log("MongoDB Connected");
 });
 
-app.use("/graphql", graphqlHTTP({ schema, graphiql: true }));
+app.use("/graphql", graphqlHTTP({ schema }));
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === "production") {
