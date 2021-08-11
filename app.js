@@ -16,7 +16,12 @@ mongoose.connection.once("open", () => {
   console.log("MongoDB Connected");
 });
 
-app.use("/graphql", graphqlHTTP({ schema }));
+if (process.env.NODE_ENV !== "production") {
+  const cors = require("cors");
+  app.use(cors());
+}
+
+app.use("/graphql", graphqlHTTP({ schema, graphiql: true }));
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === "production") {
@@ -25,9 +30,6 @@ if (process.env.NODE_ENV === "production") {
   app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
-} else {
-  const cors = require("cors");
-  app.use(cors());
 }
 
 const port = process.env.PORT || 4000;

@@ -6,7 +6,10 @@ import BookList from "./components/BookList";
 import AddBook from "./components/AddBook";
 
 const client = new ApolloClient({
-  uri: window.location.origin + "/graphql"
+  uri:
+    process.env.NODE_ENV === "production"
+      ? window.location.origin + "/graphql"
+      : "http://localhost:4000/graphql"
 });
 
 class App extends Component {
